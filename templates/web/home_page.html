@@ -1,0 +1,200 @@
+{% extends 'web/base.html' %} 
+{% load static %} 
+
+    
+{% block page_content %} 
+
+    <!-- Home (hero) -->
+    <section id="home">
+        <video src="/media/bg/network_linesPlexus.mp4" autoplay muted loop id="bg-anim"></video>
+        <div class="row">
+             <div class="owl-carousel owl-theme home-slider">
+                  <div class="item item-first">
+                       <div class="caption">
+                            <div class="container">
+                                 <div class="col-md-6 col-sm-12">
+                                      <h1 id="hero-title">UDSM AI community</h1>
+                                      <h3 id="hero-subtitle">A community of AI enthusiasts at the University of Dar es Salaam</h3>
+                                 </div>
+                            </div>
+                       </div>
+                  </div>
+             </div>
+        </div>
+   </section>
+
+   <!-- menu -->
+   <section class="navbar custom-navbar" role="navigation">
+    <div class="container">
+         <div class="navbar-header">
+              <button class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                   <span class="icon icon-bar"></span>
+                   <span class="icon icon-bar"></span>
+                   <span class="icon icon-bar"></span>
+              </button>
+
+              <!-- lOGO TEXT HERE -->
+              <a href="#" class="navbar-brand theme-h2">UDMS AI <span class="hide-small">Community</span></a>
+         </div>
+
+         <!-- MENU LINKS -->
+         <div class="collapse navbar-collapse">
+              <ul class="nav navbar-nav navbar-nav-first">
+                   <li><a href="#home" class="smoothScroll">Home</a></li>
+                   <li><a href="#about" class="smoothScroll">About</a></li>
+                   <li><a href="#events" class="smoothScroll">Events</a></li>
+                   <li><a href="#projects" class="smoothScroll">Projects</a></li>
+                   <li><a href="#team" class="smoothScroll">Team</a></li>
+              </ul>
+         </div>
+        </div>
+    </section>
+
+    <!-- about-->
+    <section id="about">
+        <div class="row">
+             <div class="owl-carousel owl-theme home-slider">
+                {% for content in about_content %}
+                    <div class="item">
+                        <div class="caption">
+                            <div class="container">
+                                <div class="col-md-6 col-sm-12">
+                                    <h1 id="hero-title">{{content.title}}</h1>
+                                    <h3 id="hero-subtitle">{{content.description}}</h3>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+                  
+             </div>
+        </div>
+   </section>
+
+   <!-- highlights -->
+   <section id="highlights" style="-webkit-box-shadow: 0 1px 30px rgba(0, 0, 0, 0.1); -moz-box-shadow: 0 1px 30px rgba(0, 0, 0, 0.1); box-shadow: 0 1px 30px rgba(0, 0, 0, 0.1);">
+        <div class="container theme">
+         <div class="row">
+              <div class="col-md-12 col-sm-12">
+                   <div class="section-title">
+                        <h2 class="theme-h2">Highlights <small>What to Expect From The Comunity</small></h2>
+                   </div>
+              </div>
+                
+                {% for highlight in highlights %}
+                    <div class="col-md-4 col-sm-4">
+                        <div class="highlights-thumb">
+                            <h3>{{highlight.title}}</h3>
+                            <p>{{highlight.description}}</p>
+                        </div>
+                    </div>
+                {% endfor %}
+            
+            </div>
+        </div>
+    </section>
+
+    <!-- events (teaser)-->
+    <section id="events">
+        <div class="container">
+             <div class="row">
+                  <div class="col-md-12 col-sm-12">
+                       <div class="section-title">
+                            <h2 class="theme-h2">Community Event <small>Where we meet and talk all AI</small></h2>
+                       </div>
+
+                       <div class="owl-carousel owl-theme owl-events">
+                            
+                            {% for event in events %}
+                                <div class="col-md-4 col-sm-4">
+                                    <div class="item">
+                                        <div class="event-thumb">
+                                            <div class="event-top">
+                                                <div class="event-image">
+                                                        <img src="/media/{{event.image}}" class="img-responsive" alt="">
+                                                </div>
+                                                <div class="event-date">
+                                                        <span><i class="fa fa-calendar"></i>{{event.event_date}}</span>
+                                                        <span><i class="fa fa-clock-o"></i> {{event.time}}</span>
+                                                </div>
+                                            </div>
+
+                                            <div class="event-detail">
+                                                <h3><a href="#">{{event.title}}</a></h3>
+                                                <p>{{event.description}}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                            </div>
+                            {% endfor %}
+                       </div>
+                  </div>
+             </div>
+   </section>
+
+   <!-- reviews -->
+   <section id="testimonial">
+    <div class="container">
+         <div class="row">
+
+              <div class="col-md-12 col-sm-12">
+                   <div class="section-title">
+                        <h2 class="theme-light">Student Reviews <small>What our friends think about the community</small></h2>
+                   </div>
+
+                   <div class="owl-carousel owl-theme owl-reviews" style="height:100%">
+                    {% for review in reviews %}
+                        <div class="col-md-4 col-sm-4 rounded">
+                            <div class="item">
+                                <div class="tst-author">
+                                     <h4>{{review.name}}</h4>
+                                     <span>{{review.classification}}</span>
+                                </div>
+                                <p>{{review.comments}}</p>
+                                
+                           </div>
+                        </div>
+                    {% endfor %}
+                   </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- team -->
+     <section id="team">
+        <div class="container">
+             <div class="row">
+
+                  <div class="col-md-12 col-sm-12">
+                       <div class="section-title">
+                            <h2 class="theme-h2">Our Team <small>Organizers & Leads</small></h2>
+                       </div>
+                  </div>
+                  
+                  {% for member in team %}
+                  <div class="col-md-3 col-sm-6 p-3">
+                    <div class="team-thumb">
+                            <div class="team-image">
+                                <img src="/media/{{member.image}}" class="img-responsive" alt="">
+                            </div>
+                            <div class="team-info">
+                                <h3>{{member.name}}</h3>
+                                <span>{{member.position}}</span>
+                            </div>
+                            <ul class="social-icon">
+                                <li><a class="fa fa-globe"></a> {{member.social_links}}</li>
+                            </ul>
+                        </div>
+                    </div>
+                  {% endfor %}
+                    
+                    
+
+
+             </div>
+        </div>
+   </section>
+
+    <!-- page footer -->
+    {% include 'web/footer.html' %} 
+{%endblock page_content %}
