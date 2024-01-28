@@ -3,3 +3,4 @@ Django
 Pillow
 sqlparse
 tzdata
+django-jazzmin
