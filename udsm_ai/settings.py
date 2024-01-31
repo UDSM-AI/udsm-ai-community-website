@@ -27,7 +27,8 @@ SECRET_KEY = 'django-insecure-%9$zu=o!^%(7=r3^f)aa7hgw^+i1)0p#w@cp=e)shb9+4a+83a
 DEBUG = True
 
 ALLOWED_HOSTS = [
-    '*'
+    'udsm-ai.live',
+    '206.189.17.228'
 ]
 
 
@@ -123,7 +124,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
 STATIC_URL = '/static/'
-STATIC_ROOT = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, "static")
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "staticfiles"),
 ]
