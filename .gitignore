@@ -2,3 +2,5 @@
 .env_
 db.sqlite3
 *.pyc
+static/*
+*/migrations/*
