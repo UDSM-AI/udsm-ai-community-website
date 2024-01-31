@@ -1,5 +1,4 @@
 .env
-.env_
 db.sqlite3
 *.pyc
 static/*
