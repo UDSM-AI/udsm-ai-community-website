@@ -1,0 +1,17 @@
+/**
+ * Title:  Bigmug Line Flaticon Pack
+ * Author: Catalin Fertu
+ * Source: http://www.flaticon.com/packs/bigmug-line
+ * License:  CC BY 3.0 (http://creativecommons.org/licenses/by/3.0/)
+ */
+
+@font-face {
+	font-family: "fl-bigmug-line";
+	src: url("../fonts/bigmug-line/fl-bigmug-line.eot");
+	src: url("../fonts/bigmug-line/fl-bigmug-line.eot#iefix") format("embedded-opentype"),
+	url("../fonts/bigmug-line/fl-bigmug-line.woff") format("woff"),
+	url("../fonts/bigmug-line/fl-bigmug-line.ttf") format("truetype"),
+	url("../fonts/bigmug-line/fl-bigmug-line.svg") format("svg");
+	font-weight: normal;
+	font-style: normal;
+}
