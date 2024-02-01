@@ -64,7 +64,7 @@
         <div class="col-md-7 text-center" data-aos="fade-up" data-aos-delay="400">
           <h1>Voice-Powered Car Controls</h1>
           <p class="mb-4"><span class="small">Join us in building an open dataset that reflects the richness and diversity of the Swahili language. </span></p>
-          <!--div id="playerContainer"></div-->
+          <div id="playerContainer" style="display: none;"></div>
         </div>
       </div>
     </div>
@@ -135,15 +135,17 @@
 
       <form class="row" data-aos="fade-up" data-aos-delay="600">
         <div class="col-md-4 col-lg-3">
-            <h5 class="font-weight-light">Action</h5>
-            <p>Action description 'Lorem ipsum'</p>
+            <h5 class="font-weight-light mb-3">Action</h5>
+            <p>
+              <span class="font-weight-bold">{{action}}</span> <br> {{description}}
+            </p>
         </div>
         <div class="col-md-4 col-lg-3">
-            <h5 class="font-weight-light">Voice Recording</h5>
-            <button class="Rec" id="rbutton" type="button">Record</button>
+            <h5 class="font-weight-light mb-3">Voice Recording</h5>
+            <button class="noRec" id="recButton" type="button">Record</button>
         </div>
         <div class="col-md-4 col-lg-6">
-            <h5 class="font-weight-light">Sentence Narrated</h5>
+            <h5 class="font-weight-light mb-3">Sentence Narrated</h5>
             <div class="input-group mb-3 ">
               <input type="text" class="form-control col-8" placeholder="Recording Transcription" aria-label="transcription" aria-describedby="button-addon2">
               <input class="btn btn-outline-primary" type="submit" id="button-addon2" value="save">
@@ -226,7 +228,7 @@
 
 
 <style>
-  #rbutton {
+  #recButton {
     width: 35px;
     height: 35px;
     font-size: 0;

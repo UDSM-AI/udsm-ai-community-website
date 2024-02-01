@@ -1,4 +1,5 @@
 from django.db import models
+from django.db.models import Count
 
 class MovementCategory(models.Model):
     name = models.CharField(max_length=50)
