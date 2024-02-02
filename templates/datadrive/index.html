@@ -140,9 +140,12 @@
               <span class="font-weight-bold">{{action}}</span> <br> {{description}}
             </p>
         </div>
-        <div class="col-md-4 col-lg-3">
+        <div class="col-md-4 col-lg-3 mx-auto">
             <h5 class="font-weight-light mb-3">Voice Recording</h5>
-            <button class="noRec" id="recButton" type="button">Record</button>
+            <div style="display: flex; align-items: center;">
+              <button class="noRec" id="recButton" type="button">Record</button>
+              <p class="font-weight-light"><br><span id="elapsed">00</span> Seconds</p>
+            </div>
         </div>
         <div class="col-md-4 col-lg-6">
             <h5 class="font-weight-light mb-3">Sentence Narrated</h5>
@@ -264,18 +267,52 @@
 </style>
 
 
-<script>
-  $('#recButton').addClass("notRec");
+  <script>
 
-$('#recButton').click(function(){
-	if($('#recButton').hasClass('notRec')){
-		$('#recButton').removeClass("notRec");
-		$('#recButton').addClass("Rec");
-	}
-	else{
-		$('#recButton').removeClass("Rec");
-		$('#recButton').addClass("notRec");
-	}
-});
-</script>
+
+    var recButton = document.getElementById('recButton');
+    var elapsed = document.getElementById('elapsed');
+
+    var time_elapsed = 0;
+    var recording = false;
+
+    var runner = null;
+
+    function update_time_elapsed(){
+      elapsed.innerHTML = time_elapsed;
+      time_elapsed += 1;
+    }
+
+    function startRecording() {
+      time_elapsed = 0;
+      recording = true;
+      runner = setInterval(update_time_elapsed, 1000);
+      mediaRecorder.start();
+
+    }
+
+    function stopRecording() {
+      recording = false;
+      clearInterval(runner);
+      time_elapsed = 0;
+    }
+
+    recButton.addEventListener("click", ()=>{
+      if($('#recButton').hasClass('notRec')){
+        $('#recButton').removeClass("notRec");
+        $('#recButton').addClass("Rec");
+
+        startRecording();
+      }
+      else{
+        $('#recButton').removeClass("Rec");
+        $('#recButton').addClass("notRec");
+
+        stopRecording();
+      }
+    })
+
+
+
+  </script>
 </html>
