@@ -133,24 +133,28 @@
         </div>
       </div>
 
-      <form class="row" data-aos="fade-up" data-aos-delay="600">
+      <form class="row" data-aos="fade-up" data-aos-delay="600" method="post" enctype="multipart/form-data"> {% csrf_token %}
         <div class="col-md-4 col-lg-3">
             <h5 class="font-weight-light mb-3">Action</h5>
             <p>
-              <span class="font-weight-bold">{{action}}</span> <br> {{description}}
+              <span class="font-weight-bold">{{action.name}}</span> <br> {{action.description}}
+              <!-- hidden input for action id-->
+              <input type="hidden" id="actionId" name="actionId" value="{{action.id}}">
             </p>
         </div>
         <div class="col-md-4 col-lg-3 mx-auto">
             <h5 class="font-weight-light mb-3">Voice Recording</h5>
             <div style="display: flex; align-items: center;">
-              <button class="noRec" id="recButton" type="button">Record</button>
-              <p class="font-weight-light"><br><span id="elapsed">00</span> Seconds</p>
+              <button class="recButton" id="recButtonStart" type="button">Record</button>
+              <button class="recButton" id="recButtonStop" type="button" style="display: none;">Stop</button>
+              <p class="font-weight-light"><br><span id="elapsed">00</span> </p>
+              <input type="file" id="audioData" name="audioData" value="" style="display: none;">
             </div>
         </div>
         <div class="col-md-4 col-lg-6">
             <h5 class="font-weight-light mb-3">Sentence Narrated</h5>
             <div class="input-group mb-3 ">
-              <input type="text" class="form-control col-8" placeholder="Recording Transcription" aria-label="transcription" aria-describedby="button-addon2">
+              <input type="text" class="form-control col-8" name="transcription" placeholder="Recording Transcription" aria-label="transcription" aria-describedby="button-addon2">
               <input class="btn btn-outline-primary" type="submit" id="button-addon2" value="save">
             </div>
         </div>
@@ -224,6 +228,7 @@
   <script src="{% static 'datadrive/js/aos.js' %}"></script>
   <script src="{% static 'datadrive/js/circleaudioplayer.js' %}"></script>
   <script src="{% static 'datadrive/js/main.js' %}"></script>
+  <script src="{% static 'datadrive/js/audioRecorder.js' %}"></script>
 
 
 
@@ -231,13 +236,15 @@
 
 
 <style>
-  #recButton {
+  #recButtonStart {
+    border-radius: 35px;
+  }
+  .recButton {
     width: 35px;
     height: 35px;
     font-size: 0;
     background-color: red;
     border: 0;
-    border-radius: 35px;
     margin: 18px;
     outline: none;
   }
@@ -267,51 +274,67 @@
 </style>
 
 
+
   <script>
 
 
-    var recButton = document.getElementById('recButton');
-    var elapsed = document.getElementById('elapsed');
+    setupAudioRecorder("recButtonStart", "recButtonStop");
 
-    var time_elapsed = 0;
-    var recording = false;
+    var recButton = document.getElementById("recButtonStart");
+    var stopButton = document.getElementById("recButtonStop");
 
-    var runner = null;
+    var elapsed = document.getElementById("elapsed");
+    var seconds = 0;
+    var intervalId = null;
 
-    function update_time_elapsed(){
-      elapsed.innerHTML = time_elapsed;
-      time_elapsed += 1;
+    elapsed.innerHTML = seconds + " Seconds";
+
+    recButton.onclick = function(){
+      // update the elapsed time every second from 0
+      intervalId = setInterval(function() {
+        seconds++;
+        elapsed.innerHTML = seconds + " Seconds";
+      }, 1000);
     }
 
-    function startRecording() {
-      time_elapsed = 0;
-      recording = true;
-      runner = setInterval(update_time_elapsed, 1000);
-      mediaRecorder.start();
-
-    }
-
-    function stopRecording() {
-      recording = false;
-      clearInterval(runner);
-      time_elapsed = 0;
-    }
-
-    recButton.addEventListener("click", ()=>{
-      if($('#recButton').hasClass('notRec')){
-        $('#recButton').removeClass("notRec");
-        $('#recButton').addClass("Rec");
-
-        startRecording();
+    stopButton.onclick = function(){
+      // delete interval counter for elapsed time
+      if (intervalId) {
+        clearInterval(intervalId);
+        intervalId = null;
+        seconds = 0;
       }
-      else{
-        $('#recButton').removeClass("Rec");
-        $('#recButton').addClass("notRec");
+    }
 
-        stopRecording();
+    // Listen for the custom event and update the hidden input field
+      document.addEventListener('audioRecorded', (event) => {
+      const audioDataInput = document.getElementById('audioData');
+      var base64Data = event.detail;
+
+      // Convert Base64 to binary
+      const binaryData = atob(base64Data);
+
+      // Create ArrayBuffer from binary data
+      const arrayBuffer = new ArrayBuffer(binaryData.length);
+      const view = new Uint8Array(arrayBuffer);
+
+      for (let i = 0; i < binaryData.length; i++) {
+        view[i] = binaryData.charCodeAt(i);
       }
-    })
 
+      // Create Blob from ArrayBuffer with WAV MIME type
+      const blob = new Blob([arrayBuffer], { type: 'audio/wav' });
+
+      // Create a File object from the Blob
+      const audioFile = new File([blob], 'recorded_audio.wav', { type: 'audio/wav' });
+
+      // Create a DataTransfer object and set the File object as the item
+      const dataTransfer = new DataTransfer();
+      dataTransfer.items.add(audioFile);
+
+      // Set the File object as the value of the file input
+      audioDataInput.files = dataTransfer.files;
+    });
 
 
   </script>
